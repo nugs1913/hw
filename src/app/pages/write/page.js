@@ -58,7 +58,9 @@ export default function CreatePost() {
           required
           onChange={(e) => setBody(e.target.value)}
         ></textarea>
-        <button type="submit">작성</button>
+        <div>
+          <button type="submit">작성</button>
+        </div>
       </form>
     </main>
   );

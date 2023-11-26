@@ -7,7 +7,6 @@ export default function Home() {
   const [articles, setArticles] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태를 저장하는 state
   const [SessionId, setSessionId ] = useState()
 
   useEffect(() => {
@@ -36,9 +35,6 @@ export default function Home() {
     }
     fetchArticles();
 
-    // TODO: 세션 상태를 확인하는 로직 추가
-    const session = sessionStorage.getItem('isLoggedIn');
-    setIsLoggedIn(session ? true : false);
     const sessionid = sessionStorage.getItem('id');
     setSessionId(sessionid)
   }, []);
@@ -63,7 +59,7 @@ export default function Home() {
         </div>
       ))}
       <div className="writebtn">
-        {sessionStorage.getItem("id") ? <Link href={'/pages/write'}><button>글쓰기</button></Link> : null }
+        {SessionId ? <Link href={'/pages/write'}><button>글쓰기</button></Link> : null }
       </div>
       <div className="pagination">
         <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>
