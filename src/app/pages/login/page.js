@@ -31,9 +31,9 @@ export default function LoginForm() {
       if (response.ok) {
         sessionStorage.setItem("isLoggedIn", "true");
         sessionStorage.setItem("id", id.value)
-        window.location.href = '/'; // 로그인 성공 시 홈페이지로 이동
+        window.location.href = '/';
       } else {
-        alert("Login failed. Please try again."); // 로그인 실패 시 알림
+        alert("Login failed. Please try again.");
       }
     } catch (error) {
       console.error('로그인 에러:', error);

@@ -95,7 +95,7 @@ export default function Home() {
       </form>
       {currentItems.map((article, index) => (
         <div className="article_header" key={index}>
-          <p>{(totalPages - (currentPage - 1)) * itemsPerPage - index}</p>
+          <p>{(currentPage - 1) * itemsPerPage - index + 2}</p>
           <Link href={`/pages/${article.acticlenum}`}><p>{article.title}</p></Link>
           <p>{article.writer}</p>
           <p>{article.time}</p>
