@@ -16,8 +16,7 @@ export default function LoginForm() {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     try {
       const response = await fetch('/api/login', {
         method: 'POST',
@@ -43,6 +42,7 @@ export default function LoginForm() {
 
   return (
     <div className="container">
+      <h1>로그인</h1>
       <form onSubmit={handleSubmit} className="form">
         <div className="input-group">
           <label htmlFor="id" className="label">ID:</label>

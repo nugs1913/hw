@@ -35,8 +35,7 @@ export default function Home({ params }) {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     const id = sessionStorage.getItem('id');
 
     try {
@@ -96,8 +95,7 @@ export default function Home({ params }) {
     setSelectedCommentId(null);
   };
 
-  const handleEditFormSubmit = async (e) => {
-    e.preventDefault();
+  const handleEditFormSubmit = async () => {
 
     try {
       const response = await fetch('/api/cmodify', {
