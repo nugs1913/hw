@@ -7,10 +7,9 @@ async function runQuery(id, passwd) {
   try {
     connection = await oracledb.getConnection(dbConfig);
 
-    // 실제 데이터베이스 구조와 맞게 수정 필요
     const result = await connection.execute(`SELECT id, passwd FROM userdb WHERE id = :1 AND passwd = :2`, [id, passwd]);
 
-    return result.rows.length > 0; // 일치하는 데이터가 있는지 확인
+    return result.rows.length > 0;
   } catch (err) {
     console.error(err);
     return false;
@@ -39,8 +38,8 @@ async function handler(req, res) {
       req.session.user = {
         id: id,
         admin: false,
-      }; // 세션 설정
-      await req.session.save(); // 세션 저장
+      };
+      await req.session.save();
       res.status(200).json({ message: 'Login successful' });
     } else {
       res.status(401).json({ message: 'Invalid credentials' , id , password});
