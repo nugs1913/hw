@@ -36,16 +36,12 @@ async function runQuery(pid) {
     const lob = article[3]; // Assuming the LOB object is at index 3
     const lobData = await lobToString(lob);
 
-    const articleTime = new Date(article[4]);
-
-    const formattedTime = `${articleTime.getFullYear()}-${(articleTime.getMonth() + 1).toString().padStart(2, '0')}-${articleTime.getDate().toString().padStart(2, '0')} ${articleTime.getHours().toString().padStart(2, '0')}:${articleTime.getMinutes().toString().padStart(2, '0')}:${articleTime.getSeconds().toString().padStart(2, '0')}`;
-    
     return {
       acticlenum: article[0],
       title: article[1],
       writer: article[2],
-      body: lobData, // Converted LOB data as string
-      time: formattedTime // Formatted time
+      body: lobData,
+      time: new Date(article[4]).toLocaleString(),
     };
 
   } catch (err) {

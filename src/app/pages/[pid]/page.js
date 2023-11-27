@@ -130,7 +130,7 @@ export default function Home({ params }) {
         });
         const data = await response.json();
   
-      setArticles(data);
+        setArticles(data);
       } catch (error) {
         console.error('Error fetching data in page', error);
       }
@@ -147,19 +147,15 @@ export default function Home({ params }) {
         });
         const data = await response.json();
         const transformedData = data.map(comment => {
-          const commentTime = new Date(comment[2]);
-
-          const formattedTime = `${commentTime.getFullYear()}-${(commentTime.getMonth() + 1).toString().padStart(2, '0')}-${commentTime.getDate().toString().padStart(2, '0')} ${commentTime.getHours().toString().padStart(2, '0')}:${commentTime.getMinutes().toString().padStart(2, '0')}:${commentTime.getSeconds().toString().padStart(2, '0')}`;
-
           return {
             writer: comment[0],
             body: comment[1],
-            time: formattedTime,
+            time: new Date(comment[2]).toLocaleString(),
             commentnum: comment[3]
           };
-        });
+        }).reverse();
 
-        setComment(transformedData.reverse());
+        setComment(transformedData);
       } catch (error) {
         console.error('Error fetching data in page', error);
       }
