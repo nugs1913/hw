@@ -28,6 +28,11 @@ export default function RootLayout({ children }) {
       alert('로그아웃 에러:', error);
     }
   };
+
+  const hadleClick = (e) => {
+    e.preventDefault();
+    window.location.href = '/';
+  };
   
   useEffect(() => {
     setIsLoggedIn(sessionStorage.getItem("id"));
@@ -37,8 +42,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <header>
-          <div></div>
-          <Link href={'/'}>HOME</Link>
+          <Link href={'/'} onClick={hadleClick}>HOME</Link>
           <div>
             {isLoggedIn ? 
             <button onClick={handleLogout}>logout</button> : 

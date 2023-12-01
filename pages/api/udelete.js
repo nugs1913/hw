@@ -9,26 +9,12 @@ export default async function handler(req, res) {
 
         try {
             connection = await oracledb.getConnection(dbConfig);
-            const resultComment = await connection.execute(
-                `DELETE FROM comments WHERE writer = :id`,
-                {
-                    id,
-                }
-            );
-            const resultArticle = await connection.execute(
-                `DELETE FROM article WHERE writer = :id`,
-                {
-                    id,
-                }
-            );
-            const resultUser = await connection.execute(
+            const result = await connection.execute(
                 `DELETE FROM userdb WHERE id = :id`,
                 {
                     id,
                 }
             );
-
-            const result = resultArticle && resultComment && resultUser;
 
             await connection.commit();
             await connection.close();

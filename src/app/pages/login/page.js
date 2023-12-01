@@ -26,7 +26,6 @@ export default function LoginForm() {
         body: JSON.stringify(loginInfo)
       });
       const data = await response.json();
-      console.log("로그인 결과:", data);
 
       if (response.ok) {
         sessionStorage.setItem("isLoggedIn", "true");

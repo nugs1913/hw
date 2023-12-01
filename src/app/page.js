@@ -10,9 +10,7 @@ export default function Home() {
   const [keyword, setKeyword] = useState('');
   const [category, setCategory] = useState('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleSearch = async (inputKeyword, inputCategory) => {
     try {
       const response = await fetch('/api/search', {
         method: 'POST',
@@ -20,8 +18,8 @@ export default function Home() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          keyword: keyword,
-          cat: category
+          keyword: inputKeyword,
+          cat: inputCategory
         }),
       });
       const data = await response.json();
@@ -66,7 +64,7 @@ export default function Home() {
     fetchArticles();
 
     const sessionid = sessionStorage.getItem('id');
-    setSessionId(sessionid)
+    setSessionId(sessionid);
   }, []);
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -76,9 +74,19 @@ export default function Home() {
 
   const paginate = pageNumber => setCurrentPage(pageNumber);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleSearch(keyword, category);
+  };
+
+  const handleWriterSearch = (inputWriter) => {
+    setKeyword(inputWriter);
+    setCategory('writer');
+    handleSearch(inputWriter, 'writer');
+  };
+
   return (
     <main>
-      <p>hello {sessionId}</p>
       <form className="search_container" onSubmit={handleSubmit}>
         <select name='cat' value={category} onChange={(e) => setCategory(e.target.value)}>
           <option value='writer'>작성자</option>
@@ -92,15 +100,18 @@ export default function Home() {
           onChange={(e) => setKeyword(e.target.value)}
         />
         <button type="submit">검색</button>
+        <p>hello {sessionId}</p>
       </form>
-      {currentItems.map((article, index) => (
-        <div className="article_header" key={index}>
-          <p>{(currentPage - 1) * itemsPerPage - index + 2}</p>
-          <Link href={`/pages/${article.acticlenum}`}><p>{article.title}</p></Link>
-          <p>{article.writer}</p>
-          <p>{article.time}</p>
-        </div>
-      ))}
+      <div className="article_container">
+        {currentItems.map((article, index) => (
+          <div className="article_header" key={index}>
+            <p>{(totalPages - currentPage) * itemsPerPage - index + currentItems.length}</p>
+            <Link href={`/pages/${article.acticlenum}`}><p>{article.title}</p></Link>
+            <button onClick={() => handleWriterSearch(article.writer)}>{article.writer}</button>
+            <p>{article.time}</p>
+          </div>
+        ))}
+      </div>
       <div className="writebtn">
         {sessionId ? <Link href={'/pages/write'}><button>글쓰기</button></Link> : null }
       </div>
@@ -120,4 +131,3 @@ export default function Home() {
     </main>
   );
 }
-

@@ -12,7 +12,7 @@ export default async function handler(req, res) {
       const grade = 'bronze';
 
       const result = await connection.execute(
-        `INSERT INTO userdb (id, passwd, email, nickname, grade) VALUES (:id, :passwd, :email, :nickname, :grade)`,
+        `INSERT INTO userdb VALUES (:id, :passwd, :email, :nickname, :grade)`,
         {
           id,
           passwd,

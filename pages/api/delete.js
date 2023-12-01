@@ -5,18 +5,12 @@ import oracledb from 'oracledb';
 export default async function handler(req, res) {
     let connection;
     if (req.method === 'POST') {
-        const { pid, writer } = req.body;
+        const { pid } = req.body;
 
         try {
             connection = await oracledb.getConnection(dbConfig);
-            const resulta = await connection.execute(
+            const result = await connection.execute(
                 `DELETE FROM article WHERE articlenum = :pid`,
-                {
-                pid,
-                }
-            );
-            const resultc = await connection.execute(
-                `DELETE FROM comments WHERE articlenum = :pid`,
                 {
                 pid,
                 }
@@ -25,7 +19,7 @@ export default async function handler(req, res) {
             await connection.commit();
             await connection.close();
 
-            res.status(200).json({ success: true, resulta });
+            res.status(200).json({ success: true, result });
         } catch (error) {
             console.error('게시글 삭제 에러:', error);
             res.status(500).json({ success: false, error: error.message });

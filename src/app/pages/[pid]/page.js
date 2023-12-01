@@ -169,7 +169,7 @@ export default function Home({ params }) {
   return (
     <main>
         <div>
-          <div className="article_header">
+          <div className="article_header_inner">
             <p>now</p>
             <p>{articles.title}</p>
             <p>{articles.writer}</p>

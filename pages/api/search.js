@@ -7,30 +7,31 @@ async function runQuery(cat, keyword) {
     connection = await oracledb.getConnection(dbConfig);
     switch(cat) {
         case 'title':
-            const resultTitle = await connection.execute(
-                'SELECT articlenum, title, writer, time FROM article WHERE title = :keyword ORDER BY time ASC',
-                {
-                    keyword,
-                }
-            );
-            return resultTitle.rows;
+          keyword = '%' + keyword + '%';
+          const resultTitle = await connection.execute(
+              'SELECT articlenum, title, writer, time FROM article WHERE title like :keyword ORDER BY time ASC',
+              {
+                  keyword,
+              }
+          );
+          return resultTitle.rows;
         case 'writer':
-            const resultWriter = await connection.execute(
-                'SELECT articlenum, title, writer, time FROM article WHERE writer = :keyword ORDER BY time ASC',
-                {
-                    keyword,
-                }
-            );
-            return resultWriter.rows;
+          const resultWriter = await connection.execute(
+              'SELECT articlenum, title, writer, time FROM article WHERE writer = :keyword ORDER BY time ASC',
+              {
+                  keyword,
+              }
+          );
+          return resultWriter.rows;
         case 'body':
-            keyword = '%' + keyword + '%';
-            const resultBody = await connection.execute(
-                'SELECT articlenum, title, writer, time FROM article WHERE body like :keyword ORDER BY time ASC',
-                {
-                    keyword,
-                }
-            );
-            return resultBody.rows;
+          keyword = '%' + keyword + '%';
+          const resultBody = await connection.execute(
+              'SELECT articlenum, title, writer, time FROM article WHERE body like :keyword ORDER BY time ASC',
+              {
+                  keyword,
+              }
+          );
+          return resultBody.rows;
     }
 
   } catch (err) {
