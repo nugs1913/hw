@@ -1,4 +1,3 @@
-import { withIronSession } from 'next-iron-session';
 import oracledb from 'oracledb';
 import dbConfig from '../../dbconfig';
 
@@ -24,7 +23,7 @@ async function runQuery(id, passwd) {
   }
 }
 
-async function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method != 'POST') {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
@@ -35,11 +34,12 @@ async function handler(req, res) {
     const isValidUser = await runQuery(id, password);
 
     if (isValidUser) {
-      req.session.user = {
-        id: id,
-        admin: false,
-      };
-      await req.session.save();
+      if (req.session) {
+        req.session.user = {
+          id: id,
+        };
+        await req.session.save();
+      }
       res.status(200).json({ message: 'Login successful' });
     } else {
       res.status(401).json({ message: 'Invalid credentials' , id , password});
@@ -49,11 +49,3 @@ async function handler(req, res) {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 }
-
-export default withIronSession(handler, {
-  password: 'your-password-should-be-at-least-32-characters-long',
-  cookieName: 'session',
-  cookieOptions: {
-    secure: process.env.NODE_ENV === 'production' ? true : false,
-  },
-});

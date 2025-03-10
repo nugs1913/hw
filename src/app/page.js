@@ -106,7 +106,7 @@ export default function Home() {
         {currentItems.map((article, index) => (
           <div className="article_header" key={index}>
             <p>{(totalPages - currentPage) * itemsPerPage - index + currentItems.length}</p>
-            <Link href={`/pages/${article.acticlenum}`}><p>{article.title}</p></Link>
+            <Link href={`/pages/${article.acticlenum}`}><p className="article_title">{article.title}</p></Link>
             <button onClick={() => handleWriterSearch(article.writer)}>{article.writer}</button>
             <p>{article.time}</p>
           </div>

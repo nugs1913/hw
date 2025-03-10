@@ -6,15 +6,17 @@ export default function CreatePost() {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
 
-  const id = sessionStorage.getItem('id'); // 세션에서 ID 가져오기
+  const id = typeof window !== 'undefined' ? sessionStorage.getItem('id') : null; // 세션에서 ID 가져오기
     if (id == null) {
-        alert("로그인을 하세요");
+      if (typeof window !== 'undefined') { 
+        alert('로그인을 하세요');
         window.location.href = '/pages/login'; // 로그인 성공 시 홈페이지로 이동
+      }
     }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const id = sessionStorage.getItem('id');
+    const id = typeof window !== 'undefined' ? sessionStorage.getItem('id') : null; // 세션에서 ID 가져오기
 
     try {
       const response = await fetch('/api/write', {

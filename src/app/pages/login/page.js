@@ -16,7 +16,8 @@ export default function LoginForm() {
     }));
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
       const response = await fetch('/api/login', {
         method: 'POST',
@@ -30,7 +31,9 @@ export default function LoginForm() {
       if (response.ok) {
         sessionStorage.setItem("isLoggedIn", "true");
         sessionStorage.setItem("id", id.value)
-        window.location.href = '/';
+        if (typeof window !== 'undefined') { 
+          window.location.href = '/';
+        }
       } else {
         alert("Login failed. Please try again.");
       }
